@@ -115,7 +115,6 @@ export default function Home() {
         <div className={styles.header}>
           <div>
             <h1 className={styles.title}>Figurinhas Copa 2026</h1>
-            <p className={styles.subtitle}>Álbum compartilhado entre amigos</p>
           </div>
           {isSaving && <span className={styles.savingIndicator}>Salvando...</span>}
         </div>
