@@ -15,6 +15,7 @@ export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
   const [data, setData] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
+  const [showCompletas, setShowCompletas] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(COUNTRIES);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -93,6 +94,24 @@ export default function Home() {
     });
     return { total, filled, percentage: total > 0 ? Math.round((filled / total) * 100) : 0 };
   };
+
+  const isComplete = (country) => {
+    const fig = data[country.code] || {};
+    let filled = 0;
+    for (let i = 1; i <= country.count; i++) {
+      filled += fig[i] ? fig[i].length : 0;
+    }
+    return filled >= country.count;
+  };
+
+  // Quando "exibir completas" está desmarcada, as completas vão para o fim
+  // mantendo a ordem relativa do restante (ordenação estável).
+  const orderedCountries = showCompletas
+    ? filteredCountries
+    : [
+        ...filteredCountries.filter((c) => !isComplete(c)),
+        ...filteredCountries.filter((c) => isComplete(c)),
+      ];
 
   const stats = getStats();
   const userStats = currentUser
@@ -183,10 +202,22 @@ export default function Home() {
           </button>
         </div>
 
+        {/* Options */}
+        <div className={styles.optionsSection}>
+          <label className={styles.optionToggle}>
+            <input
+              type="checkbox"
+              checked={showCompletas}
+              onChange={(e) => setShowCompletas(e.target.checked)}
+            />
+            <span>Exibir completas</span>
+          </label>
+        </div>
+
         {/* Countries Grid */}
         <div className={styles.countriesSection}>
-          {filteredCountries.length > 0 ? (
-            filteredCountries.map(country => (
+          {orderedCountries.length > 0 ? (
+            orderedCountries.map(country => (
               <Selecao
                 key={country.code}
                 country={country}

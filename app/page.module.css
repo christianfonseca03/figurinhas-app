@@ -189,6 +189,28 @@
   color: var(--color-bg);
 }
 
+/* Options */
+.optionsSection {
+  margin-bottom: 2rem;
+}
+
+.optionToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  user-select: none;
+}
+
+.optionToggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+  accent-color: var(--color-green);
+}
+
 /* Countries */
 .countriesSection {
   margin-bottom: 2rem;
